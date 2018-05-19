@@ -1,0 +1,69 @@
+{% extends 'core/base.html' %}
+{% load core_tag %}
+{% load widget_tweaks %}
+{% block title %}Community Create{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="mx-auto">
+            <a class="btn btn-round btn-sm btn-info float-right"
+               href="{% url 'core:community_permitted_user_manage' community.id %}">承認済みユーザー一覧へ</a>
+            <h2 class="text-center my-4">承認待ちユーザー一覧</h2>
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th class=" text-center">ユーザー名</th>
+                    <th class=" text-center">状態</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for u in stand_by_users %}
+                    <tr>
+                        <td class="text-center my-auto" scope="col">
+                            {{ u.username }}
+                        </td>
+                        <td class="text-center" scope="col">
+                            <button class="btn btn-sm btn-primary btn-round" data-toggle="modal"
+                                    data-target="#permitUser">
+                                承認する
+                            </button>
+
+                            <!-- Modal Core -->
+                            <div class="modal fade" id="permitUser" tabindex="-1" role="dialog"
+                                 aria-labelledby="permitUser" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                &times;
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">確認</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            本当に承認しますか？
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default btn-simple"
+                                                    data-dismiss="modal">キャンセル
+                                            </button>
+                                            <form action="{% url 'core:community_user_manage' community.id %}"
+                                                  method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="user_id" value="{{ u.id }}">
+                                                <input class="btn btn-danger btn-simple" type="submit" value="承認する">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'user_auth/base.html' %}
+
+{% block title %}My page{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="text-center mt-4">
+            <ul>
+                <li>ユーザー名: {{ user.username }}</li>
+            </ul>
+        </div>
+
+        <div class="list-group col-8 mx-auto">
+            <li class="list-group-item"><a href="{% url 'core:my_article' %}">自分の記事</a></li>
+            <li class="list-group-item"><a href="{% url 'core:community_manage' %}">コミュニティ管理</a></li>
+            <li class="list-group-item"><a href="{% url 'core:community_create' %}">コミュニティ作成</a></li>
+            <li class="list-group-item"><a href="{% url 'core:community_search' %}">コミュニティを探す</a></li>
+        </div>
+    </div>
+
+
+{% endblock %}

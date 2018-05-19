@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load core_tag %}
+{% block title %}Community Edit{% endblock %}
+
+{% block content %}
+
+    <div class="container bg-light">
+        <h2 class="text-center mt-5">コミュニティ詳細変更</h2>
+        <form href="{% url 'core:community_edit' community.id %}" method="post">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+                <div class="form-group">
+                    <label for="fields.id_for_label">{{ field.label_tag }}</label>
+                    {{ field |add_class:"form-control" }}
+                </div>
+            {% endfor %}
+            <div class="form-group w-25 mx-auto">
+                <input type="submit" value="変更" class="btn btn-info form-control"/>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="col-3 mx-auto">
+                    <button class="btn btn-danger btn-round d-block mx-auto" data-toggle="modal"
+                            data-target="#deleteCommunity">
+                        削除する
+                    </button>
+
+                    <!-- Modal Core -->
+                    <div class="modal fade" id="deleteCommunity" tabindex="-1" role="dialog"
+                         aria-labelledby="deleteCommunity" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">確認</h4>
+                                </div>
+                                <div class="modal-body">
+                                    本当に削除しますか？
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">
+                                        キャンセル
+                                    </button>
+                                    <form action="{% url 'core:community_delete' community.id %}" method="post">
+                                        {% csrf_token %}
+                                        <input class="btn btn-danger btn-simple" type="submit" value="削除">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

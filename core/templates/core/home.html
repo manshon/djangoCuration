@@ -1,0 +1,135 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+{% loag core_tag %}
+{% block title %}home{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid layout mt-0">
+        <div class="row">
+
+            {#    サイドバー     #}
+            <div class="col-12 col-sm-2 bg-default ">
+                <div class="follow_community mt-4">
+                    <p class="text-center">フォローしているコミュニティ</p>
+                    <ul>
+                        {% for com in permitted_communities %}
+                            <li class="text-center">
+                                <a class="text-light"
+                                   href="{% url 'core:community_detail' com.id %}">{{ com.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="admin_community mt-4">
+                    <p class="text-center">管理しているコミュニティ</p>
+                    <ul class="row p-0">
+                        {% for com in admin_communities %}
+                            <li class="text-center w-100 mx-auto">
+                                <a class="text-light"
+                                   href="{% url 'core:community_detail' com.id %}">{{ com.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+
+            <!--                           main                               -->
+            <div class="col-12 col-sm-10 bg-light main w-100 mx-auto main bg-light">
+                <div class="my-3">
+                    <a class="btn btn-warning pull-right " href="{% url 'core:article_create' community.id %}">
+                        記事作成
+                    </a>
+                    <a class="btn btn-info pull-right" href="#">
+                        自分の記事
+                    </a>
+                    <a class="btn btn-info pull-right mr-2" href="#">
+                        コミュニティの詳細
+                    </a>
+                    <form class="float-right" action="{% url 'core:real_home' community.id %}">
+                        {% for field in article_search_form.visible_fields %}
+                            <div class="form-group">
+                                <label class="" for="field.id_for_label">{{ field.label_tag }}</label>
+                                {{ field |add_class:"form-control" }}
+                            </div>
+                        {% endfor %}
+                        <div class="form-group float-right">
+                            <input class="btn btn-info btn-round" type="submit" value="検索"/>
+                        </div>
+                    </form>
+
+                </div>
+
+                <!-- 記事 -->
+                <div class="album">
+                    <div class="container">
+                        <div class="row">
+                            {% for article in articles %}
+                                <div class="card col-sm-6 well bg-light mt-3">
+                                    <div class="card-header w-100 well" style="background-color: #add8e6;">
+                                        <a href="{% url 'core:article_detail' community.id article.id %}">{{ article.title }}</a>
+                                    </div>
+                                    <div class="card-body row well">
+                                        {#                    <img src="{{ article.thumbnail.url }}" class="col-4 img-fluid">#}
+                                        <div class="col-12">
+                                            {{ article.summary | linebreaksbr }}
+                                        </div>
+                                        <div class="ml-4 mt-4">
+                                            <a class="btn btn-info"
+                                               href="{% url 'core:article_detail' community.id article.id %}">続きを読む</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--                             ページネーション                                    -->
+                <nav class="justify-content-center d-block col-6 mx-auto" aria-label="Page navigation">
+                    <ul class="pagination pagination-primary w-25 mx-auto">
+                        {% if articles.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ article.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#">
+                                    <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for link_page in articles.paginator.page_range %}
+                            {% if link_page == articles.number %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?page={{ link_page }}">{{ link_page }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ link_page }}">{{ link_page }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if articles.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ articles.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                        {% endif %}
+                    </ul>
+                </nav>
+                {#        <i class="now-ui-icons arrows-1_minimal-right"></i>#}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

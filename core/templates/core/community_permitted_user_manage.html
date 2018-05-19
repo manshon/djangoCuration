@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+{% load core_tag %}
+{% load widget_tweaks %}
+{% block title %}Community Create{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="mx-auto">
+            <a class="btn btn-round btn-sm btn-info float-right"
+               href="{% url 'core:community_user_manage' community.id %}">承認待ちユーザー一覧へ</a>
+            <h2 class="text-center my-4">承認済みユーザー一覧</h2>
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th class=" text-center">ユーザー名</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for u in permitted_users %}
+                    <tr>
+                        <td class="text-center btn d-block" scope="col">
+                            <a class="">{{ u.username }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+{% load core_tag %}
+{% load widget_tweaks %}
+{% block title %}Article Create{% endblock %}
+
+{% block content %}
+
+    <div class="container bg-light">
+        <h2 class="text-center mt-5">編集</h2>
+        <form action="{% url 'core:article_edit' article.community_id article.id %}" method="post">
+            {% csrf_token %}
+            {% for filed in form.visible_fields %}
+                <div class="form-group">
+                    <label for="field.id_for_label">{{ filed.label_tag }}</label>
+                    {{ filed |add_class:"form-control" }}
+                </div>
+            {% endfor %}
+            <div class="form-group w-25 mx-auto">
+                <input class="form-control btn btn-info " type="submit" value="編集する">
+            </div>
+        </form>
+        <!-- Button trigger modal -->
+        <div class="row">
+            <div class="col-12">
+                <div class="col-3 mx-auto">
+                    <button class="btn btn-danger btn-round d-block mx-auto" data-toggle="modal"
+                            data-target="#deleteArticle">
+                        削除する
+                    </button>
+
+                    <!-- Modal Core -->
+                    <div class="modal fade" id="deleteArticle" tabindex="-1" role="dialog"
+                         aria-labelledby="deleteArticle" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">確認</h4>
+                                </div>
+                                <div class="modal-body">
+                                    本当に削除しますか？
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">
+                                        キャンセル
+                                    </button>
+                                    <form action="{% url 'core:article_delete' article.id %}" method="post">
+                                        {% csrf_token %}
+                                        <input class="btn btn-danger btn-simple" type="submit" value="削除">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

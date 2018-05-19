@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'widget_tweaks',
+
+    'user_auth.apps.UserAuthConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
@@ -105,9 +108,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
@@ -121,4 +124,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/my_page/'
+LOGOUT_REDIRECT_URL = '/login'
+
+AUTH_USER_MODEL = 'user_auth.User'
+
 TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
+

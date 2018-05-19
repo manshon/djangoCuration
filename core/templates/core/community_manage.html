@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+{% load core_tag %}
+{% load widget_tweaks %}
+{% block title %}Community Detail{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="album">
+            <div class="row">
+                {% for community in communities %}
+                    <div class="card col-sm-6 well bg-light mt-3">
+                        <div class="card-header w-100 well" style="background-color: #add8e6;">
+                            <a href="{% url 'core:community_detail' community.id %}">{{ community.name }}</a>
+                        </div>
+                        <div class="card-body row well">
+                            {#                    <img src="{{ community.thumbnail.url }}" class="col-4 img-fluid">#}
+                            <div class="col-8">
+                                {{ community.description | linebreaksbr }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!--                             ページネーション                                    -->
+        {% if is_exists %}
+            <nav class="justify-content-center col-6 mx-auto" aria-label="Page navigation">
+                <ul class="pagination pagination-primary w-25 mx-auto">
+                    {% if communities.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ communities.previous_page_number }}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">
+                                <span aria-hidden="true"><i class="fa fa-angle-double-left"
+                                                            aria-hidden="true"></i></span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for link_page in communities.paginator.page_range %}
+                        {% if link_page == communities.number %}
+                            <li class="page-item active">
+                                <a class="page-link" href="?page={{ link_page }}">{{ link_page }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ link_page }}">{{ link_page }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if communities.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ communities.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">
+                                <span aria-hidden="true"><i class="fa fa-angle-double-left"
+                                                            aria-hidden="true"></i></span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% else %}
+            <div class="w-50 mx-auto mt-5">
+                <h4 class="text-center">管理しているコミュニティがありません</h4>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

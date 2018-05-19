@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% load core_tag %}
+{% load widget_tweaks %}
+{% block title %}Community Create{% endblock %}
+
+{% block content %}
+
+    <div class="container bg-light">
+        <h2 class="text-center mt-5">コミュニティ作成</h2>
+        <form action="{% url 'core:community_create' %}" method="post">
+            {% csrf_token %}
+            {% for filed in form.visible_fields %}
+                <div class="form-group">
+                    <label for="field.id_for_label">{{ filed.label_tag }}</label>
+                    {{ filed |add_class:"form-control" }}
+                </div>
+            {% endfor %}
+            <div class="form-group w-25 mx-auto">
+                <input class="form-control btn btn-info " type="submit" value="作成">
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

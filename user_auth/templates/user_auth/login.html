@@ -1,0 +1,28 @@
+{% extends 'user_auth/base.html' %}
+{% load widget_tweaks %}
+{% block title %}ログイン{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="w-25 mx-auto">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {% for field in form.visible_fields %}
+                            <label for="field.id_for_label">{{ field.label_tag }}</label>
+                            {{ field |add_class:"form-control" }}
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-info form-control d-block col-6 mx-auto" type="submit" value="ログイン">
+                    </div>
+                </form>
+                <div class="">
+                    <a href="{% url 'signup' %}" class="btn btn-success d-block col-6 mx-auto">登録画面へ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

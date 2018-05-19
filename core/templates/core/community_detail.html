@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+{% load core_tag %}
+{% load widget_tweaks %}
+{% block title %}Article Detail{% endblock %}
+
+{% block content %}
+
+    <div class="container bg-light mb-5">
+        <div class="article-header row header">
+            <div class="col-9">
+                <h1 class="text-center">コミュニティ名: {{ community.name }}</h1><br/>
+                <h5>タグ</h5>
+
+            </div>
+            <div class="col-3">
+                {% if user.id == community.admin.id %}
+                    <a href="{% url 'core:community_edit' community.id %}" class="btn btn-info mt-3">編集する</a><br/>
+                    <a href="{% url 'core:community_user_manage' community.id %}" class="btn btn-info ">ユーザー承認</a>
+                    <br/>
+                {% endif %}
+                管理人: {{ community.admin }}<br/>
+                (作成日時) {{ community.created_at }}<br/>
+                {% if user.id != community.admin.id %}
+                    {% if follow_status == 1 %}  <!-- フォロー済み -->
+                        <a href="{% url 'core:community_follow' community.id %}" class="btn btn-info mt-3">
+                            フォロー解除
+                        </a>
+                    {% endif %}
+                    {% if follow_status == 2 %}  <!-- 承認待ち -->
+                        <a href="{% url 'core:community_follow' community.id %}" class="btn btn-primary mt-3">
+                            承認待ち
+                        </a>
+                    {% endif %}
+                    {% if follow_status == 3 %}  <!-- 未フォロー -->
+                        <a href="{% url 'core:community_follow' community.id %}" class="btn btn-success mt-3">
+                            フォローする
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <hr/>
+
+        <div class="article-body">
+            {{ community.description |linebreaksbr | urlize | url_target_blank }}
+        </div>
+        <hr/>
+
+
+    </div>
+
+
+
+{% endblock %}

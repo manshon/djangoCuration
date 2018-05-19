@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% load board_tag %}
+{% load widget_tweaks %}
+{% block title %}Article Create{% endblock %}
+
+{% block content %}
+
+    <div class="container bg-light">
+        <h2 class="text-center mt-5">まとめ作成</h2>
+        <form action="{% url 'core:article_create' community_id %}" method="post">
+            {% csrf_token %}
+            {% for filed in form.visible_fields %}
+                <div class="form-group">
+                    <label for="field.id_for_label">{{ filed.label_tag }}</label>
+                    {{ filed |add_class:"form-control" }}
+                </div>
+            {% endfor %}
+            <div class="form-group w-25 mx-auto">
+                <input class="form-control btn btn-info " type="submit" value="投稿する">
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

@@ -8,7 +8,10 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Article, Community, Comment
 from user_auth.models import User
-from .forms import ArticleCommentForm, ArticleCreateForm, ArticleEditForm, CommunityCreateForm, CommunityEditForm, ArticleSearchForm
+from .forms import (
+    ArticleCommentForm, ArticleCreateForm, ArticleEditForm, CommunityCreateForm, CommunityEditForm, ArticleSearchForm,
+    search_articles
+)
 
 # Create your views here.
 
@@ -44,7 +47,7 @@ def real_home(request, community_id):
     article_search_form = ArticleSearchForm(request.GET)
     if article_search_form.is_valid():
         search_word = article_search_form.cleaned_data['search_word']
-        articles = Article.objects.filter(title__contains=search_word)
+        articles = search_articles(search_word)
 
     params = request.GET.copy()
     if 'page' in params:
@@ -65,7 +68,7 @@ def real_home(request, community_id):
                    'articles': articles,
                    'permitted_communities': permitted_communities,
                    'admin_communities': admin_communities,
-                   'article_search_form':article_search_form,
+                   'article_search_form': article_search_form,
                    'search_params': search_params})
 
 
@@ -78,11 +81,18 @@ def article_detail(request,community_id, article_id):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.admin_id = request.user.id
+            comment.article_id = article.id
             comment.save()
-            article.comment.add(comment)
 
         return HttpResponseRedirect(reverse('core:article_detail', args=(community_id, article_id,)))
     else:
+        comment_paginator = Paginator(comments, 10)
+        page = request.GET.get('page')
+        try:
+            comments = comment_paginator.page(page)
+        except (PageNotAnInteger, EmptyPage):
+            comments = comment_paginator.page(1)
+
         form = ArticleCommentForm()
         return render(request, 'core/article_detail.html',
                   {'article': article,

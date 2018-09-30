@@ -1,0 +1,54 @@
+{% extends 'blog/layout.html' %}
+
+{% block main %}
+    <div class="bg-light">
+        <!-- main部分をより引き締める -->
+        <div class="container">
+            <div class="container">
+                <div class="container">
+                    {% block bread %}{% endblock %}
+                    <div class="row">
+                        <!-- 左側のメインコンテンツ -->
+                        <main class="col-12 col-md-9">
+                            {% block content %}
+                            {% endblock %}
+                        </main><!-- メインコンテンツ終了 -->
+
+                        <!-- 右側のサイドバー -->
+                        <aside class="col-12 col-md-3 ">
+
+                            <!-- 自己紹介 -->
+                            {% include 'blog/widgets/side_about.html' %}
+
+                            <!-- カテゴリ一覧 -->
+                            {% include 'blog/widgets/side_category.html' %}
+
+                            <!-- タグ一覧 -->
+                            {% include 'blog/widgets/side_tag.html' %}
+
+                            {#                    <!-- リンク一覧 -->#}
+                            {#                    {% include 'blog/widgets/side_link.html' %}#}
+
+                            {#                    <!-- コメント一覧 -->#}
+                            {#                    {% include 'blog/widgets/side_comment.html' %}#}
+
+                            {% include 'blog/widgets/popular_post_list.html'  %}
+
+                            <!-- 広告一覧 -->
+                            {% for ad in ads %}
+                                {{ ad.html | safe }}
+                            {% endfor %}<!-- 広告一覧終了 -->
+
+                        </aside><!-- /サイドバー終了 -->
+
+                    </div><!-- /.row -->
+
+                    <!-- 人気記事一覧 -->
+{#                    <aside>#}
+{#                        {% include 'blog/widgets/popular_post_list.html' %}#}
+{#                    </aside>#}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

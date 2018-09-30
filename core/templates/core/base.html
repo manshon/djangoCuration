@@ -1,4 +1,5 @@
 {% load static %}
+{% load core_tag %}
 {% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="ja">
@@ -18,7 +19,6 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-
 <nav class="navbar navbar-expand-sm navbar-light sticky-top" style="background-color: #add8e6;">
     <a class="navbar-brand" href="{% url 'my_page' %}">{{ user.username }}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -44,7 +44,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
+                <a class="nav-link" href="{% url 'blog:index' %}">Blog</a>
             </li>
         </ul>
         {% if user.is_authenticated %}

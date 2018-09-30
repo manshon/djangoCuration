@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import login, logout
@@ -20,10 +22,19 @@ from user_auth.views import signup, my_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('core/', include('core.urls')),
+    path('', include('core.urls')),
+    path('blog/', include('blog.urls')),
 
     path('login/', login, kwargs={'template_name': 'user_auth/login.html'}, name='login'),
     path('logout/', logout, name='logout'),
     path('signup/', signup, name='signup'),
     path('my_page/', my_page, name='my_page'),
 ]
+
+# 開発環境でのメディアファイルの配信設定
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]

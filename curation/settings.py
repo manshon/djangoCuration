@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'widget_tweaks',
+    'django.contrib.sites',  # add
+    'django.contrib.sitemaps',  # add
 
     'user_auth.apps.UserAuthConfig',
     'core.apps.CoreConfig',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +59,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'curation.urls'
 
+SITE_ID = 1  # add
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -67,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'blog.context_processors.common',  # add
             ],
         },
     },
@@ -104,6 +110,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+if DEBUG:
+    INTERNAL_IPS = ['127.0.0.1']
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+    DEBUG_TOOLBAR_PANELS = [
+        'debug_toolbar.panels.versions.VersionsPanel',
+        'debug_toolbar.panels.timer.TimerPanel',
+        'debug_toolbar.panels.settings.SettingsPanel',
+        'debug_toolbar.panels.headers.HeadersPanel',
+        'debug_toolbar.panels.request.RequestPanel',
+        'debug_toolbar.panels.sql.SQLPanel',
+        'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+        'debug_toolbar.panels.templates.TemplatesPanel',
+        'debug_toolbar.panels.cache.CachePanel',
+        'debug_toolbar.panels.signals.SignalsPanel',
+        'debug_toolbar.panels.logging.LoggingPanel',
+        'debug_toolbar.panels.redirects.RedirectsPanel',
+    ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -135,4 +159,9 @@ LOGOUT_REDIRECT_URL = '/login'
 AUTH_USER_MODEL = 'user_auth.User'
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
+
+
+# 各種メディアファイル
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 

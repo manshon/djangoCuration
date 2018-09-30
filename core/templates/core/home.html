@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load widget_tweaks %}
-{% loag core_tag %}
+{% load core_tag %}
 {% block title %}home{% endblock %}
 
 {% block content %}
@@ -44,14 +44,14 @@
                     <a class="btn btn-info pull-right" href="#">
                         自分の記事
                     </a>
-                    <a class="btn btn-info pull-right mr-2" href="#">
+                    <a class="btn btn-info pull-right mr-2" href="{% url 'core:community_detail' community.id %}">
                         コミュニティの詳細
                     </a>
                     <form class="float-right" action="{% url 'core:real_home' community.id %}">
                         {% for field in article_search_form.visible_fields %}
                             <div class="form-group">
                                 <label class="" for="field.id_for_label">{{ field.label_tag }}</label>
-                                {{ field |add_class:"form-control" }}
+                                {{ field |add_class:"form-control" |attr:"" }}
                             </div>
                         {% endfor %}
                         <div class="form-group float-right">

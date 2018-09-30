@@ -6,6 +6,10 @@ from user_auth.models import User
 # Create your models here.
 
 
+class Tag(models.Model):
+    pass
+
+
 class Community(models.Model):
     name = models.CharField('コミュニティ名', max_length=30)
     description = models.TextField('コミュニティの説明')
@@ -46,3 +50,6 @@ class Comment(models.Model):
     admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_admin_user')
     created_at = models.DateTimeField('投稿日時', auto_now_add=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comment_admin_article')
+
+
+

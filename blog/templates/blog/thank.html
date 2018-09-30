@@ -1,0 +1,19 @@
+{% extends 'blog/main_layout.html' %}
+{% load static %}
+{% block meta_des %}{% endblock %}
+
+{% block title %}Thank You For Your Contact!{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div>
+            <h4 class="text-center my-5">コメントありがとうございます</h4>
+        </div>
+        <div class="row">
+            <a class="btn col-md-3 d-block mx-auto" href="{% url 'blog:index' %}"
+               style="background: #cce5ff; color: #00bbff">
+                トップページへ
+            </a>
+        </div>
+    </div>
+{% endblock %}

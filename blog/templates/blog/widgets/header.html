@@ -1,0 +1,9 @@
+{% load blogfilter %}
+{% load static %}
+<header class="jumbotron my-0" style="background: url('/static/blog/img/nature.jpg'); background-size: cover;
+background-position: center; height: 250px">
+  <div class="container">
+    <h1 class="text-center my-auto d-block" style="color: white">{{ mysite.title }}</h1>
+    {{ mysite.header_text | linebreaksbr | blog }}
+  </div>
+</header>

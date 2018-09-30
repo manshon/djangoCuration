@@ -1,0 +1,22 @@
+{% extends "blog/main_layout.html" %}
+{% load static %}
+{% load blogfilter %}
+{% block meta_des %}コンタクトページ{% endblock %}
+{% block title %}コンタクトページ{% endblock %}
+
+{% block content %}
+    {{ form.non_field_errors }}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <p style="color: #ff2727;">{{ field.errors }}</p>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <button class="btn btn-lg btn-success" type="submit">
+            送信
+        </button>
+    </form>
+{% endblock %}

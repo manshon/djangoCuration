@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-dark " style="background: #23272b">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse " id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto ml-sm-5">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog:index' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog:tag_list' %}">All Tag</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="_blank" href="{% url 'blog:feed' %}" rel="nofollow">Feed</a>
+          </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'blog:private' %}" rel="nofollow">Private</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" href="{% url 'admin:index' %}" rel="nofollow">Admin</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'blog:ping' %}" rel="nofollow">Ping</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'core:home' %}" rel="nofollow">Curation</a>
+            </li>
+          {% endif %}
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="{% url 'blog:index' %}">
+          {{ global_form.keyword }}
+{#          <button class="btn my-2 my-sm-0" type="submit">検索</button>#}
+        </form>
+      </div>
+    </div>
+</nav>

@@ -1,0 +1,10 @@
+<div class="list-group my-4">
+  <a href="#" class="list-group-item text-white" style="background: #cce5ff;">
+    Link
+  </a>
+  {% for link in links  %}
+  <a class="list-group-item text-secondary" href="{{ link.adrs }}" target="_blank" rel="nofollow">
+      {{ link.name }}
+  </a>
+  {% endfor %}
+</div> <!-- リンク一覧終了 -->

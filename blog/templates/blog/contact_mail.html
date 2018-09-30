@@ -1,0 +1,27 @@
+{% extends 'blog/layout.html' %}
+{% load static %}
+{% block meta_des %}Contact Mail{% endblock %}
+
+{% block main %}
+<div class="container">
+    <h2 class="my-3 text-center">Contact Mail</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>DateTime</th>
+                <th>Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mail in mail_list %}
+            <tr>
+                <td>{{ mail.name }}</td>
+                <td>{{ mail.created_at }}</td>
+                <td><a href="{% url 'blog:contact_mail_detail' mail.id %}">{{ mail.get_text }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

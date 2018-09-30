@@ -1,0 +1,12 @@
+{#{% load static %}#}
+{#<link rel="stylesheet" href="{% static 'now_ui_kit/css/now-ui-kit.css' %}">#}
+<div class="list-group my-4">
+  <a href="#" class="list-group-item text-white " style="background: #6c757d;">
+      Category
+  </a>
+  {% for category in categories %}
+  <a class="list-group-item text-secondary" href="{% url 'blog:category' category.name %}">
+    {{ category.name }}<span class="badge badge-info badge-pill float-right text-white">{{ category.num_posts }}</span>
+  </a>
+  {% endfor %}
+</div>

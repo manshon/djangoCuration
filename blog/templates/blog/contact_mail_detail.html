@@ -1,0 +1,16 @@
+{% extends 'blog/layout.html' %}
+{% load static %}
+{% block meta_des %}Contact Mail Detail{% endblock %}
+
+{% block main %}
+    <div class="container my-5">
+        <div class="card">
+            <div class="card-header">
+                <h2>{{ mail.name }} -- {{ mail.email }}</h2>
+            </div>
+            <div class="card-body">
+                {{ mail.text }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

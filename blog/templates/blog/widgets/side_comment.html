@@ -1,0 +1,13 @@
+{% load blogfilter %}
+
+<div class="hidden-sm-down list-group my-4">
+  <a href="#" class="list-group-item text-white " style="background: #6c757d;">
+    Comment
+  </a>
+  {% for comment in comments  %}
+  <a class="list-group-item text-secondary" href="{% url 'blog:detail' comment.target.pk %}#comment-area" rel="nofollow">
+      {{ comment.name }}(返信:{{ comment.num_recomments }})
+      <span class="badge badge-info badge-pill float-right text-white">{% by_the_time comment.created_at %}</span>
+  </a>
+  {% endfor %}    
+</div> <!-- コメント一覧終了 -->
